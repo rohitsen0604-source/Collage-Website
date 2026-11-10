@@ -1,18 +1,21 @@
+<?php
+session_start();
+include('admin/db_connect.php');
+ob_start();
+$query = $conn->query("SELECT * FROM system_settings limit 1");
+if ($query && $query->num_rows > 0) {
+    $row = $query->fetch_array();
+    foreach ($row as $key => $value) {
+        if (!is_numeric($key))
+            $_SESSION['system'][$key] = $value;
+    }
+}
+ob_end_flush();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <?php
-    session_start();
-    include('admin/db_connect.php');
-    ob_start();
-        $query = $conn->query("SELECT * FROM system_settings limit 1")->fetch_array();
-         foreach ($query as $key => $value) {
-          if(!is_numeric($key))
-            $_SESSION['system'][$key] = $value;
-        }
-    ob_end_flush();
     include('header.php');
-
-	
     ?>
 
     <style>
